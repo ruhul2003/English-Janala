@@ -19,7 +19,15 @@ import { AuthModal } from '@/components/AuthModal';
 import { UserProfileModal } from '@/components/UserProfileModal';
 import { useLearningStorage } from '@/lib/useLearningStorage';
 import { useSession } from '@/lib/auth-client';
-import { fetchLevels, fetchWordsByLevel, fetchWordDetail, fetchAllWords } from '@/lib/api';
+import {
+  fetchLevels,
+  fetchWordsByLevel,
+  fetchWordDetail,
+  fetchAllWords,
+  syncUserWithDB,
+  saveWordToDB,
+  saveQuizToDB,
+} from '@/lib/api';
 import { fireConfetti, fireFireworks } from '@/lib/confetti';
 
 export default function Home() {
@@ -64,6 +72,13 @@ export default function Home() {
   // Better Auth Session
   const { data: session } = useSession();
   const currentUser = session?.user || customUser;
+
+  // Sync user with MongoDB database upon login
+  useEffect(() => {
+    if (currentUser?.email) {
+      syncUserWithDB(currentUser);
+    }
+  }, [currentUser]);
 
   // Initial fetch: Levels and All Words
   useEffect(() => {
@@ -159,7 +174,10 @@ export default function Home() {
   };
 
   // Quiz completion handler
-  const handleQuizComplete = (finalScore) => {
+  const handleQuizComplete = (finalScore, totalQuestions = 8) => {
+    if (currentUser?.email) {
+      saveQuizToDB(currentUser.email, finalScore, totalQuestions);
+    }
     if (finalScore >= 40) {
       fireFireworks();
     } else {

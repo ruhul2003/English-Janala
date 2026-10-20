@@ -1,4 +1,5 @@
 const BASE_URL = 'https://openapi.programming-hero.com/api';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
 
 /**
  * Clean string to prevent null / undefined / falsy text
@@ -101,5 +102,69 @@ export async function fetchAllWords() {
   } catch (err) {
     console.error('Error fetching all words:', err);
     return [];
+  }
+}
+
+// ---------------- MongoDB Backend Integration APIs ---------------- //
+
+/**
+ * Sync logged-in user with MongoDB database
+ */
+export async function syncUserWithDB(user) {
+  if (!user?.email) return null;
+  try {
+    const res = await fetch(`${BACKEND_URL}/api/auth/sync`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: user.email,
+        name: user.name,
+        image: user.image,
+      }),
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (err) {
+    console.warn('Backend sync offline:', err.message);
+    return null;
+  }
+}
+
+/**
+ * Save word to MongoDB
+ */
+export async function saveWordToDB(userId, word) {
+  if (!userId || !word) return;
+  try {
+    await fetch(`${BACKEND_URL}/api/words/saved`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId,
+        wordId: word.id,
+        word: word.word,
+        meaning: word.meaning,
+        pronunciation: word.pronunciation,
+        level: word.level,
+      }),
+    });
+  } catch (err) {
+    console.warn('Backend save word offline:', err.message);
+  }
+}
+
+/**
+ * Save quiz score to MongoDB
+ */
+export async function saveQuizToDB(userId, score, totalQuestions) {
+  if (!userId) return;
+  try {
+    await fetch(`${BACKEND_URL}/api/stats/quiz`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, score, totalQuestions }),
+    });
+  } catch (err) {
+    console.warn('Backend quiz score offline:', err.message);
   }
 }
