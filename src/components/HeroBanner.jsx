@@ -5,15 +5,7 @@ import Image from 'next/image';
 import { Sparkles, ArrowRight, BookOpen, Volume2, Award } from 'lucide-react';
 import { Button } from './ui/Button';
 
-interface HeroBannerProps {
-  onGetStarted: () => void;
-  totalWords: number;
-}
-
-export const HeroBanner: React.FC<HeroBannerProps> = ({
-  onGetStarted,
-  totalWords = 105,
-}) => {
+export const HeroBanner = ({ onGetStarted, totalWords = 105 }) => {
   return (
     <section className="relative overflow-hidden py-8 md:py-16">
       {/* Decorative gradient blur background */}

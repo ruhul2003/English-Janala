@@ -12,23 +12,10 @@ import {
   Sun,
   Menu,
   X,
-  User,
   LogIn,
 } from 'lucide-react';
-import { LearningTab } from '@/types';
 
-interface NavbarProps {
-  activeTab: LearningTab;
-  setActiveTab: (tab: LearningTab) => void;
-  savedCount: number;
-  theme: 'light' | 'dark';
-  toggleTheme: () => void;
-  user: { name?: string | null; email?: string | null; image?: string | null } | null;
-  onOpenAuth: () => void;
-  onOpenProfile: () => void;
-}
-
-export const Navbar: React.FC<NavbarProps> = ({
+export const Navbar = ({
   activeTab,
   setActiveTab,
   savedCount,
@@ -41,14 +28,14 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { id: 'learn' as LearningTab, label: 'Learn', icon: BookOpen },
-    { id: 'flashcards' as LearningTab, label: 'Flashcards', icon: Sparkles },
-    { id: 'quiz' as LearningTab, label: 'Quiz Arena', icon: Trophy },
-    { id: 'saved' as LearningTab, label: 'Saved', icon: Bookmark, badge: savedCount },
-    { id: 'faq' as LearningTab, label: 'FAQ', icon: HelpCircle },
+    { id: 'learn', label: 'Learn', icon: BookOpen },
+    { id: 'flashcards', label: 'Flashcards', icon: Sparkles },
+    { id: 'quiz', label: 'Quiz Arena', icon: Trophy },
+    { id: 'saved', label: 'Saved', icon: Bookmark, badge: savedCount },
+    { id: 'faq', label: 'FAQ', icon: HelpCircle },
   ];
 
-  const handleSelectTab = (tab: LearningTab) => {
+  const handleSelectTab = (tab) => {
     setActiveTab(tab);
     setMobileMenuOpen(false);
   };

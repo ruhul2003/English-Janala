@@ -1,11 +1,9 @@
-import { Level, Word, WordDetail } from '@/types';
-
 const BASE_URL = 'https://openapi.programming-hero.com/api';
 
 /**
  * Clean string to prevent null / undefined / falsy text
  */
-export function sanitizeString(val: any, fallback = 'N/A'): string {
+export function sanitizeString(val, fallback = 'N/A') {
   if (val === null || val === undefined || val === 'null' || val === 'undefined') {
     return fallback;
   }
@@ -16,7 +14,7 @@ export function sanitizeString(val: any, fallback = 'N/A'): string {
 /**
  * Fetch all learning levels
  */
-export async function fetchLevels(): Promise<Level[]> {
+export async function fetchLevels() {
   try {
     const res = await fetch(`${BASE_URL}/levels/all`, { next: { revalidate: 3600 } });
     if (!res.ok) throw new Error(`Failed to fetch levels: ${res.statusText}`);
@@ -24,7 +22,6 @@ export async function fetchLevels(): Promise<Level[]> {
     return Array.isArray(data.data) ? data.data : [];
   } catch (err) {
     console.error('Error fetching levels:', err);
-    // Fallback default levels if network offline
     return Array.from({ length: 10 }, (_, i) => ({
       id: 101 + i,
       level_no: i + 1,
@@ -36,12 +33,12 @@ export async function fetchLevels(): Promise<Level[]> {
 /**
  * Fetch all words for a specific level
  */
-export async function fetchWordsByLevel(levelId: number): Promise<Word[]> {
+export async function fetchWordsByLevel(levelId) {
   try {
     const res = await fetch(`${BASE_URL}/level/${levelId}`);
     if (!res.ok) throw new Error(`Failed to fetch level ${levelId}: ${res.statusText}`);
     const data = await res.json();
-    const words: Word[] = Array.isArray(data.data) ? data.data : [];
+    const words = Array.isArray(data.data) ? data.data : [];
     return words.map((w) => ({
       id: w.id,
       level: w.level || levelId,
@@ -58,7 +55,7 @@ export async function fetchWordsByLevel(levelId: number): Promise<Word[]> {
 /**
  * Fetch detailed word information for modal
  */
-export async function fetchWordDetail(wordId: number): Promise<WordDetail | null> {
+export async function fetchWordDetail(wordId) {
   try {
     const res = await fetch(`${BASE_URL}/word/${wordId}`);
     if (!res.ok) throw new Error(`Failed to fetch word ${wordId}: ${res.statusText}`);
@@ -88,12 +85,12 @@ export async function fetchWordDetail(wordId: number): Promise<WordDetail | null
 /**
  * Fetch all words across all levels for search and quiz generation
  */
-export async function fetchAllWords(): Promise<Word[]> {
+export async function fetchAllWords() {
   try {
     const res = await fetch(`${BASE_URL}/words/all`);
     if (!res.ok) throw new Error(`Failed to fetch all words: ${res.statusText}`);
     const data = await res.json();
-    const words: Word[] = Array.isArray(data.data) ? data.data : [];
+    const words = Array.isArray(data.data) ? data.data : [];
     return words.map((w) => ({
       id: w.id,
       level: w.level || 1,

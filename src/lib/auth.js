@@ -18,5 +18,3 @@ export const auth = betterAuth({
     url: process.env.DATABASE_URL || 'file:./dev.db',
   },
 });
-
-export type Session = typeof auth.$Infer.Session;

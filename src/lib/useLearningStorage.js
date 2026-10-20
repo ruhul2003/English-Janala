@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Word } from '@/types';
 
 const STORAGE_KEYS = {
   SAVED_WORDS: 'english_janala_saved_words',
@@ -14,15 +13,14 @@ const STORAGE_KEYS = {
 };
 
 export function useLearningStorage() {
-  const [savedWords, setSavedWords] = useState<Word[]>([]);
-  const [learnedWordIds, setLearnedWordIds] = useState<number[]>([]);
-  const [xp, setXp] = useState<number>(50);
-  const [streak, setStreak] = useState<number>(1);
-  const [audioSpeed, setAudioSpeed] = useState<number>(1.0);
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [savedWords, setSavedWords] = useState([]);
+  const [learnedWordIds, setLearnedWordIds] = useState([]);
+  const [xp, setXp] = useState(50);
+  const [streak, setStreak] = useState(1);
+  const [audioSpeed, setAudioSpeed] = useState(1.0);
+  const [theme, setTheme] = useState('light');
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Initialize from localStorage on mount
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEYS.SAVED_WORDS);
@@ -37,8 +35,7 @@ export function useLearningStorage() {
       const storedSpeed = localStorage.getItem(STORAGE_KEYS.AUDIO_SPEED);
       if (storedSpeed) setAudioSpeed(parseFloat(storedSpeed));
 
-      // Theme
-      const storedTheme = localStorage.getItem(STORAGE_KEYS.THEME) as 'light' | 'dark' | null;
+      const storedTheme = localStorage.getItem(STORAGE_KEYS.THEME);
       if (storedTheme) {
         setTheme(storedTheme);
         if (storedTheme === 'dark') {
@@ -48,7 +45,6 @@ export function useLearningStorage() {
         }
       }
 
-      // Daily streak calculation
       const lastActive = localStorage.getItem(STORAGE_KEYS.LAST_ACTIVE_DATE);
       const today = new Date().toISOString().slice(0, 10);
       const storedStreak = parseInt(localStorage.getItem(STORAGE_KEYS.STREAK) || '1', 10);
@@ -81,8 +77,7 @@ export function useLearningStorage() {
     }
   }, []);
 
-  // Save word toggle
-  const toggleSaveWord = useCallback((word: Word) => {
+  const toggleSaveWord = useCallback((word) => {
     setSavedWords((prev) => {
       const exists = prev.some((w) => w.id === word.id);
       const updated = exists ? prev.filter((w) => w.id !== word.id) : [word, ...prev];
@@ -96,12 +91,11 @@ export function useLearningStorage() {
   }, []);
 
   const isWordSaved = useCallback(
-    (wordId: number) => savedWords.some((w) => w.id === wordId),
+    (wordId) => savedWords.some((w) => w.id === wordId),
     [savedWords]
   );
 
-  // Mark word learned
-  const markWordLearned = useCallback((wordId: number, points = 10) => {
+  const markWordLearned = useCallback((wordId, points = 10) => {
     setLearnedWordIds((prev) => {
       if (prev.includes(wordId)) return prev;
       const updated = [...prev, wordId];
@@ -125,11 +119,10 @@ export function useLearningStorage() {
   }, []);
 
   const isWordLearned = useCallback(
-    (wordId: number) => learnedWordIds.includes(wordId),
+    (wordId) => learnedWordIds.includes(wordId),
     [learnedWordIds]
   );
 
-  // Change theme
   const toggleTheme = useCallback(() => {
     setTheme((prev) => {
       const next = prev === 'light' ? 'dark' : 'light';
@@ -147,8 +140,7 @@ export function useLearningStorage() {
     });
   }, []);
 
-  // Change audio speed
-  const changeAudioSpeed = useCallback((speed: number) => {
+  const changeAudioSpeed = useCallback((speed) => {
     setAudioSpeed(speed);
     try {
       localStorage.setItem(STORAGE_KEYS.AUDIO_SPEED, speed.toString());

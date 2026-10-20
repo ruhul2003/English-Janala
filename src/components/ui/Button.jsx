@@ -2,15 +2,7 @@
 
 import React from 'react';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
-  size?: 'sm' | 'md' | 'lg';
-  icon?: React.ReactNode;
-  children: React.ReactNode;
-  isLoading?: boolean;
-}
-
-export const Button: React.FC<ButtonProps> = ({
+export const Button = ({
   variant = 'primary',
   size = 'md',
   icon,
@@ -44,7 +36,9 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`}
+      className={`${baseStyles} ${sizeStyles[size] || sizeStyles.md} ${
+        variantStyles[variant] || variantStyles.primary
+      } ${className}`}
       disabled={disabled || isLoading}
       {...props}
     >

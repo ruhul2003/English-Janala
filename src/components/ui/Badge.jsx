@@ -2,15 +2,7 @@
 
 import React from 'react';
 
-interface BadgeProps {
-  children: React.ReactNode;
-  variant?: 'brand' | 'success' | 'warning' | 'neutral' | 'purple';
-  size?: 'sm' | 'md';
-  icon?: React.ReactNode;
-  className?: string;
-}
-
-export const Badge: React.FC<BadgeProps> = ({
+export const Badge = ({
   children,
   variant = 'brand',
   size = 'md',
@@ -37,7 +29,9 @@ export const Badge: React.FC<BadgeProps> = ({
 
   return (
     <span
-      className={`inline-flex items-center rounded-full font-medium ${sizeStyles[size]} ${variantStyles[variant]} ${className}`}
+      className={`inline-flex items-center rounded-full font-medium ${
+        sizeStyles[size] || sizeStyles.md
+      } ${variantStyles[variant] || variantStyles.brand} ${className}`}
     >
       {icon && <span className="flex-shrink-0">{icon}</span>}
       <span>{children}</span>
