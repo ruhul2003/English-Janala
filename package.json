@@ -3,11 +3,18 @@
   "version": "1.0.0",
   "description": "English Janala - Full-stack vocabulary learning platform with Next.js frontend, Express backend, and MongoDB Atlas database",
   "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "start": "npm --prefix frontend run start",
+    "lint": "npm --prefix frontend run lint",
     "frontend:dev": "npm --prefix frontend run dev",
     "frontend:build": "npm --prefix frontend run build",
     "frontend:start": "npm --prefix frontend run start",
+    "frontend:lint": "npm --prefix frontend run lint",
+    "frontend:install": "npm --prefix frontend install",
     "backend:dev": "node backend/server.js",
     "backend:start": "node backend/server.js",
-    "dev": "npm --prefix frontend run dev"
+    "backend:install": "npm --prefix backend install",
+    "install:all": "npm --prefix frontend install && npm --prefix backend install"
   }
 }
