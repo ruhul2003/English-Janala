@@ -12,20 +12,25 @@ const SavedWord = require('../models/SavedWord');
 router.post('/quiz', async (req, res) => {
   try {
     const { userId, score, totalQuestions } = req.body;
-    if (!userId) {
+    const cleanUserId = userId ? String(userId).trim() : null;
+
+    if (!cleanUserId) {
       return res.status(400).json({ success: false, message: 'userId is required' });
     }
 
+    const safeScore = Math.max(0, Number(score) || 0);
+    const safeTotal = Math.max(1, Number(totalQuestions) || 8);
+
     const quiz = await QuizResult.create({
-      userId,
-      score: score || 0,
-      totalQuestions: totalQuestions || 8,
+      userId: cleanUserId,
+      score: safeScore,
+      totalQuestions: safeTotal,
     });
 
-    if (score > 0) {
+    if (safeScore > 0) {
       await User.findOneAndUpdate(
-        { email: userId },
-        { $inc: { xp: score } },
+        { email: cleanUserId },
+        { $inc: { xp: safeScore } },
         { upsert: true }
       );
     }
@@ -42,7 +47,10 @@ router.post('/quiz', async (req, res) => {
  */
 router.get('/summary/:userId', async (req, res) => {
   try {
-    const { userId } = req.params;
+    const userId = req.params.userId?.trim();
+    if (!userId) {
+      return res.status(400).json({ success: false, message: 'Valid userId is required' });
+    }
 
     const [user, learnedCount, savedCount, quizHistory] = await Promise.all([
       User.findOne({ email: userId }),
@@ -58,7 +66,7 @@ router.get('/summary/:userId', async (req, res) => {
         xp: user?.xp || 50,
         learnedWords: learnedCount,
         savedWords: savedCount,
-        quizHistory,
+        quizHistory: quizHistory || [],
       },
     });
   } catch (error) {
