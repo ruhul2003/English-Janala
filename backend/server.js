@@ -61,6 +61,23 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/words', require('./routes/wordRoutes'));
 app.use('/api/stats', require('./routes/statsRoutes'));
 
+// 404 Handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Route not found: ${req.method} ${req.originalUrl}`,
+  });
+});
+
+// Central Error Handler Middleware
+app.use((err, req, res, next) => {
+  console.error('Unhandled Server Error:', err);
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Internal Server Error',
+  });
+});
+
 // Start Server
 app.listen(PORT, () => {
   console.log(`🚀 English Janala Backend Server running on port ${PORT}`);
