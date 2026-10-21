@@ -2,6 +2,23 @@ const BASE_URL = 'https://openapi.programming-hero.com/api';
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
 
 /**
+ * Fetch wrapper with timeout protection
+ */
+async function fetchWithTimeout(url, options = {}, timeoutMs = 8000) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const res = await fetch(url, { ...options, signal: controller.signal });
+    clearTimeout(timeoutId);
+    return res;
+  } catch (err) {
+    clearTimeout(timeoutId);
+    throw err;
+  }
+}
+
+/**
  * Clean string to prevent null / undefined / falsy text
  */
 export function sanitizeString(val, fallback = 'N/A') {
@@ -17,12 +34,12 @@ export function sanitizeString(val, fallback = 'N/A') {
  */
 export async function fetchLevels() {
   try {
-    const res = await fetch(`${BASE_URL}/levels/all`, { next: { revalidate: 3600 } });
+    const res = await fetchWithTimeout(`${BASE_URL}/levels/all`, { next: { revalidate: 3600 } });
     if (!res.ok) throw new Error(`Failed to fetch levels: ${res.statusText}`);
     const data = await res.json();
     return Array.isArray(data.data) ? data.data : [];
   } catch (err) {
-    console.error('Error fetching levels:', err);
+    console.error('Error fetching levels:', err.message);
     return Array.from({ length: 10 }, (_, i) => ({
       id: 101 + i,
       level_no: i + 1,
@@ -36,7 +53,7 @@ export async function fetchLevels() {
  */
 export async function fetchWordsByLevel(levelId) {
   try {
-    const res = await fetch(`${BASE_URL}/level/${levelId}`);
+    const res = await fetchWithTimeout(`${BASE_URL}/level/${levelId}`);
     if (!res.ok) throw new Error(`Failed to fetch level ${levelId}: ${res.statusText}`);
     const data = await res.json();
     const words = Array.isArray(data.data) ? data.data : [];
@@ -48,7 +65,7 @@ export async function fetchWordsByLevel(levelId) {
       pronunciation: sanitizeString(w.pronunciation, 'উচ্চারণ নেই'),
     }));
   } catch (err) {
-    console.error(`Error fetching words for level ${levelId}:`, err);
+    console.error(`Error fetching words for level ${levelId}:`, err.message);
     return [];
   }
 }
@@ -58,7 +75,7 @@ export async function fetchWordsByLevel(levelId) {
  */
 export async function fetchWordDetail(wordId) {
   try {
-    const res = await fetch(`${BASE_URL}/word/${wordId}`);
+    const res = await fetchWithTimeout(`${BASE_URL}/word/${wordId}`);
     if (!res.ok) throw new Error(`Failed to fetch word ${wordId}: ${res.statusText}`);
     const json = await res.json();
     const data = json.data;
@@ -78,7 +95,7 @@ export async function fetchWordDetail(wordId) {
         : ['None recorded'],
     };
   } catch (err) {
-    console.error(`Error fetching word detail for ID ${wordId}:`, err);
+    console.error(`Error fetching word detail for ID ${wordId}:`, err.message);
     return null;
   }
 }
@@ -88,7 +105,7 @@ export async function fetchWordDetail(wordId) {
  */
 export async function fetchAllWords() {
   try {
-    const res = await fetch(`${BASE_URL}/words/all`);
+    const res = await fetchWithTimeout(`${BASE_URL}/words/all`);
     if (!res.ok) throw new Error(`Failed to fetch all words: ${res.statusText}`);
     const data = await res.json();
     const words = Array.isArray(data.data) ? data.data : [];
@@ -100,7 +117,7 @@ export async function fetchAllWords() {
       pronunciation: sanitizeString(w.pronunciation, 'উচ্চারণ নেই'),
     }));
   } catch (err) {
-    console.error('Error fetching all words:', err);
+    console.error('Error fetching all words:', err.message);
     return [];
   }
 }
@@ -113,7 +130,7 @@ export async function fetchAllWords() {
 export async function syncUserWithDB(user) {
   if (!user?.email) return null;
   try {
-    const res = await fetch(`${BACKEND_URL}/api/auth/sync`, {
+    const res = await fetchWithTimeout(`${BACKEND_URL}/api/auth/sync`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -121,7 +138,7 @@ export async function syncUserWithDB(user) {
         name: user.name,
         image: user.image,
       }),
-    });
+    }, 5000);
     if (!res.ok) return null;
     return await res.json();
   } catch (err) {
@@ -136,7 +153,7 @@ export async function syncUserWithDB(user) {
 export async function saveWordToDB(userId, word) {
   if (!userId || !word) return;
   try {
-    await fetch(`${BACKEND_URL}/api/words/saved`, {
+    await fetchWithTimeout(`${BACKEND_URL}/api/words/saved`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -147,7 +164,7 @@ export async function saveWordToDB(userId, word) {
         pronunciation: word.pronunciation,
         level: word.level,
       }),
-    });
+    }, 5000);
   } catch (err) {
     console.warn('Backend save word offline:', err.message);
   }
@@ -159,11 +176,11 @@ export async function saveWordToDB(userId, word) {
 export async function saveQuizToDB(userId, score, totalQuestions) {
   if (!userId) return;
   try {
-    await fetch(`${BACKEND_URL}/api/stats/quiz`, {
+    await fetchWithTimeout(`${BACKEND_URL}/api/stats/quiz`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId, score, totalQuestions }),
-    });
+    }, 5000);
   } catch (err) {
     console.warn('Backend quiz score offline:', err.message);
   }
