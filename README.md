@@ -66,12 +66,12 @@ English Janala/
 │   │   ├── authRoutes.js         # POST /api/auth/sync, GET /profile/:email
 │   │   ├── wordRoutes.js         # Saved words & learned words CRUD
 │   │   └── statsRoutes.js        # POST /quiz score, GET /summary/:userId
-│   ├── .env                      # Contains MONGODB_URI (Khoj database)
 │   ├── .env.example
 │   ├── package.json
 │   └── server.js                 # Express server on port 5000
 │
-├── .gitignore
+├── .env.example                  # Monorepo environment blueprint
+├── .gitignore                    # Comprehensive workspace ignore rules
 ├── package.json                  # Monorepo orchestration scripts
 └── README.md
 ```
@@ -83,7 +83,7 @@ English Janala/
 The backend connects directly to the MongoDB Atlas cluster using Mongoose:
 
 ```env
-MONGODB_URI=mongodb+srv://hire_loop_db_user:wwiIRfECMOKwPwpl@tilux-server.cltfmst.mongodb.net/Khoj?appName=Tilux-server
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/Khoj?retryWrites=true&w=majority
 ```
 
 ### Database Collections:
@@ -98,6 +98,7 @@ MONGODB_URI=mongodb+srv://hire_loop_db_user:wwiIRfECMOKwPwpl@tilux-server.cltfms
 
 | Method | Endpoint | Description |
 |---|---|---|
+| `GET` | `/` or `/api` | Root API documentation and health status |
 | `GET` | `/api/health` | Backend server & database health check |
 | `POST` | `/api/auth/sync` | Syncs logged-in user profile with MongoDB |
 | `GET` | `/api/auth/profile/:email` | Fetches learner profile, streak, and XP |
@@ -115,30 +116,25 @@ MONGODB_URI=mongodb+srv://hire_loop_db_user:wwiIRfECMOKwPwpl@tilux-server.cltfms
 
 ### 1. Install Dependencies
 ```bash
-# Install frontend dependencies
-cd frontend && npm install && cd ..
-
-# Install backend dependencies
-cd backend && npm install && cd ..
+# Install all dependencies across both packages
+npm run install:all
 ```
 
 ### 2. Run Backend Server (Express + MongoDB)
 ```bash
 npm run backend:dev
-# or
-node backend/server.js
 ```
 The server will start at `http://localhost:5000` and connect to the **Khoj** MongoDB database.
 
 ### 3. Run Frontend (Next.js 14)
 ```bash
-npm run frontend:dev
+npm run dev
 # or
-cd frontend && npm run dev
+npm run frontend:dev
 ```
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### 4. Build Frontend for Production
 ```bash
-npm run frontend:build
+npm run build
 ```
