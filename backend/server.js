@@ -18,6 +18,34 @@ app.use(
 );
 app.use(express.json());
 
+// API Root & Documentation
+app.get(['/', '/api'], (req, res) => {
+  res.json({
+    name: 'English Janala Backend API',
+    version: '1.0.0',
+    description: 'REST API for English Janala vocabulary learning platform',
+    status: 'healthy',
+    endpoints: {
+      health: 'GET /api/health',
+      auth: {
+        sync: 'POST /api/auth/sync',
+        profile: 'GET /api/auth/profile/:email',
+      },
+      words: {
+        savedList: 'GET /api/words/saved/:userId',
+        saveWord: 'POST /api/words/saved',
+        removeWord: 'DELETE /api/words/saved/:userId/:wordId',
+        learnedList: 'GET /api/words/learned/:userId',
+        markLearned: 'POST /api/words/learned',
+      },
+      stats: {
+        summary: 'GET /api/stats/summary/:userId',
+        recordQuiz: 'POST /api/stats/quiz',
+      },
+    },
+  });
+});
+
 // API Health Check
 app.get('/api/health', (req, res) => {
   res.json({
