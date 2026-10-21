@@ -5,39 +5,53 @@ backend/node_modules/
 .pnp
 .pnp.js
 
-# Next.js build output
+# Build and Production Outputs
 .next/
 frontend/.next/
 out/
 frontend/out/
 build/
 dist/
+.turbo/
+.vercel/
+coverage/
+
+# Database files
 *.db
+*.sqlite
+*.sqlite3
 dev.db
+
+# TypeScript declarations at root
 next-env.d.ts
 
-# Environment files
+# Environment Variables
 .env
-backend/.env
-frontend/.env.local
+.env*.local
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+backend/.env
+backend/.env.local
+frontend/.env
+frontend/.env.local
 
-# Debug and logs
+# Logs and Debug
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 .pnpm-debug.log*
 
-# OS and Editor
+# System and Editor Files
 .DS_Store
 Thumbs.db
+.idea/
+.vscode/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-.idea/
-.vscode/
