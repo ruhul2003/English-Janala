@@ -11,7 +11,7 @@ export const EmptyState = ({
   onReset,
 }) => {
   return (
-    <div className="w-full max-w-md mx-auto my-12 p-8 text-center bg-white dark:bg-slate-800/80 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm animate-fade-in">
+    <div className="w-[95%] max-w-xl mx-auto my-12 p-8 sm:p-10 text-center bg-white dark:bg-slate-800/80 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm animate-fade-in">
       <div className="relative w-20 h-20 mx-auto mb-4 flex items-center justify-center">
         <Image
           src="/assets/alert-error.png"
