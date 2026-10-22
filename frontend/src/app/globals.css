@@ -25,6 +25,14 @@ body {
   font-family: var(--font-hind-siliguri);
 }
 
+/* Responsive 95% container utility */
+.container-wide {
+  width: 95%;
+  max-width: 1800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Glassmorphism effects */
 .glass-panel {
   background: rgba(255, 255, 255, 0.85);
