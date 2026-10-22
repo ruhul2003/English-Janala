@@ -13,7 +13,7 @@ export const SavedWordsDrawer = ({
   audioSpeed = 1.0,
 }) => {
   return (
-    <section className="max-w-6xl mx-auto px-4 py-8 animate-fade-in">
+    <section className="w-[95%] max-w-[1800px] mx-auto px-2 sm:px-4 py-8 animate-fade-in">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 text-xs font-semibold mb-2">
@@ -58,7 +58,7 @@ export const SavedWordsDrawer = ({
           </Button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
           {savedWords.map((word) => (
             <div
               key={word.id}
