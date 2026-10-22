@@ -11,7 +11,7 @@ export const LevelSelector = ({
   isLoading = false,
 }) => {
   return (
-    <section className="mt-8 mb-6 mx-auto w-full max-w-6xl px-4">
+    <section className="mt-8 mb-6 mx-auto w-[95%] max-w-[1800px] px-2 sm:px-4">
       <div className="text-center mb-8">
         <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
           <span className="text-brand-500">Let&apos;s</span> Learn Vocabularies
