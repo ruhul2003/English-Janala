@@ -134,7 +134,7 @@ export const QuizArena = ({
   }
 
   return (
-    <section className="max-w-2xl mx-auto px-4 py-8 animate-fade-in">
+    <section className="w-[95%] max-w-3xl mx-auto px-4 py-8 animate-fade-in">
       <div className="text-center mb-6">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 text-xs font-semibold mb-2">
           <Trophy className="w-3.5 h-3.5" />
