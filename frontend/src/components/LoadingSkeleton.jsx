@@ -2,13 +2,13 @@
 
 import React from 'react';
 
-export const LoadingSkeleton = ({ count = 6 }) => {
+export const LoadingSkeleton = ({ count = 10 }) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl mx-auto px-4 py-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 sm:gap-5 w-[95%] max-w-[1800px] mx-auto px-2 sm:px-4 py-8">
       {Array.from({ length: count }).map((_, idx) => (
         <div
           key={idx}
-          className="shimmer-wrapper bg-white dark:bg-slate-800 rounded-3xl p-6 shadow-sm border border-slate-100 dark:border-slate-700/60 space-y-4"
+          className="shimmer-wrapper bg-white dark:bg-slate-800 rounded-2xl sm:rounded-3xl p-5 shadow-sm border border-slate-100 dark:border-slate-700/60 space-y-4"
         >
           <div className="flex justify-between items-center">
             <div className="w-16 h-5 rounded-full bg-slate-200 dark:bg-slate-700" />
