@@ -22,6 +22,14 @@ module.exports = {
           900: '#0c4a6e',
         },
       },
+      screens: {
+        '3xl': '1800px',
+      },
+      maxWidth: {
+        '8xl': '88rem',
+        '9xl': '96rem',
+        'wide': '95%',
+      },
       fontFamily: {
         sans: ['var(--font-inter)', 'sans-serif'],
         bangla: ['var(--font-hind-siliguri)', 'sans-serif'],
