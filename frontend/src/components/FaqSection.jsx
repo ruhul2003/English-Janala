@@ -60,7 +60,7 @@ export const FaqSection = () => {
   );
 
   return (
-    <section className="max-w-4xl mx-auto px-4 py-12 animate-fade-in">
+    <section className="w-[95%] max-w-5xl mx-auto px-2 sm:px-4 py-12 animate-fade-in">
       <div className="text-center mb-8">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-300 text-xs font-semibold mb-2">
           <HelpCircle className="w-3.5 h-3.5" />
