@@ -78,6 +78,15 @@ English Janala/
 
 ---
 
+## 🎨 Wide Layout & Multi-Column Grid System
+
+The UI is built with a spacious, immersive **95% fluid container width** (`max-width: 1800px`) and high-density responsive grids:
+- **Responsive Vocabulary Grid**: Automatically scales from 1 column on mobile up to 6 columns on ultra-wide screens (`grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6`).
+- **Consistent Fluid Widths**: Navbar, HeroBanner, Progress Dashboard, Level Selector, Vocabulary Grid, Saved Drawer, and Footer all align harmoniously at 95% viewport width.
+- **Compact Card Proportions**: Polished typography, padding, and spacing to display more vocabulary cards comfortably without clutter.
+
+---
+
 ## 🍃 MongoDB Database Connection
 
 The backend connects directly to the MongoDB Atlas cluster using Mongoose:
