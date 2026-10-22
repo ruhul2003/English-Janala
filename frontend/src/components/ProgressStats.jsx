@@ -15,7 +15,7 @@ export const ProgressStats = ({
   const percentCompleted = Math.min(100, Math.round((learnedCount / (totalWords || 1)) * 100));
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 my-6">
+    <div className="w-[95%] max-w-[1800px] mx-auto px-2 sm:px-4 my-6">
       <div className="bg-white dark:bg-slate-800 rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-100 dark:border-slate-700/60">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pb-5 border-b border-slate-100 dark:border-slate-700/60">
           {/* Daily Streak */}
