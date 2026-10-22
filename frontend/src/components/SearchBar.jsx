@@ -17,7 +17,7 @@ export const SearchBar = ({
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto px-4 my-6">
+    <div className="w-[95%] max-w-3xl mx-auto px-2 sm:px-4 my-6">
       <div className="relative flex items-center">
         <div className="absolute left-4 text-slate-400 pointer-events-none" aria-hidden="true">
           <Search className="w-5 h-5 text-brand-500" />
