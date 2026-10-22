@@ -75,7 +75,7 @@ export const FlashcardArena = ({
   }
 
   return (
-    <section className="max-w-2xl mx-auto px-4 py-8 animate-fade-in">
+    <section className="w-[95%] max-w-3xl mx-auto px-4 py-8 animate-fade-in">
       <div className="text-center mb-6">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-300 text-xs font-semibold mb-2">
           <Sparkles className="w-3.5 h-3.5" />
