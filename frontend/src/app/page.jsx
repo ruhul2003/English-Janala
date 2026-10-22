@@ -242,7 +242,7 @@ export default function Home() {
             )}
 
             {/* Vocabulary Word Cards Grid (Requirement #2) */}
-            <section className="w-full max-w-6xl mx-auto px-4 my-8">
+            <section className="w-[95%] max-w-[1800px] mx-auto px-2 sm:px-4 my-8">
               {isLoadingWords ? (
                 <LoadingSkeleton count={6} />
               ) : displayedWords.length === 0 ? (
